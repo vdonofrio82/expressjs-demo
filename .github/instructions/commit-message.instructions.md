@@ -1,3 +1,8 @@
+---
+applyTo: "**"
+---
+
+
 # Copilot Guidelines for Commit Messages
 
 - Keep the subject line concise, ideally under 50 characters
