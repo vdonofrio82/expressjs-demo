@@ -3,27 +3,94 @@ applyTo: "**"
 ---
 
 
-# Copilot Guidelines for Code Review
 
-- Always provide feedback in a polite, respectful, and constructive manner.
-- Avoid unnecessary complexity in code structure.
-- Ask for clarification when code is unclear, using friendly and encouraging language.
-- When reporting security issues, do so calmly and objectively, focusing on actionable solutions and avoiding alarmist or panic-inducing language.
-- Foster a welcoming environment for open-source contributors by highlighting strengths and opportunities for learning.
-- Reference and prioritize best practices, guidelines, and standards from the [pagopa/dx](https://github.com/pagopa/dx) repository, especially those in apps/website/docs.
-- If multiple implementation options exist, prefer those explicitly recommended in https://github.com/pagopa/dx.
-- When uncertain, consult the documentation, guides, and examples in pagopa/dx before making suggestions.
-- When citing or applying a best practice from pagopa/dx, mention the specific guideline or section used as reference.
-- When a commit comment or PR title contains an issue number (e.g. #1, #123), look into the referenced GitHub issue to verify that the code changes align with the design specifications and acceptance criteria outlined in the issue.
+## Code Review Instructions for GitHub Copilot
+Perform a comprehensive code review following these high-level best practices. Provide actionable feedback with specific line references where applicable.
 
-Example Custom Instruction: Always guide code review generation and suggestions according to the best practices, conventions, and guidelines documented in https://github.com/pagopa/dx. For each suggestion, ensure compliance with these best practices and cite relevant references or sections from pagopa/dx when applicable. Always communicate feedback in a way that is supportive and reassuring, especially when discussing security or potential issues.
+### 1. SECURITY & VULNERABILITIES
+- Identify potential security vulnerabilities (injection, XSS, authentication bypasses, etc.)
+- Check for exposed sensitive data (API keys, passwords, PII)
+- Avoid false positives in test files
+- Verify proper input validation and sanitization
+- Review authentication and authorization logic
+- Flag any use of deprecated or vulnerable dependencies
 
-Additionally, if you are using the MCP tool #searchModules, ensure the namespace is always pagopa-dx.
+### 2. CODE QUALITY & MAINTAINABILITY
+- Evaluate code readability and clarity
+- Check for adherence to SOLID principles
+- Identify code duplication (DRY violations)
+- Assess method/function complexity (suggest splitting if too complex)
+- Review naming conventions consistency (variables, functions, classes)
+- Flag magic numbers or hardcoded values that should be constants
+- Check for proper separation of concerns
+● Immutability: Prioritize const over let for immutable data structures.
+● Functional Programming: Favor map and filter for data manipulation instead of traditional for/while loops.
+● Method Arguments:
+	○ Avoid nullable or boolean arguments.
+	○ For methods with more than three arguments, prefer a configuration object.
+● Type Safety:
+	○ Minimize unnecessary casts.
+	○ Avoid casting to any; use unknown or properly typed structures and methods.
+● Code Clarity:
+	○ Remove all legacy and unreachable code.
 
-## Acceptance Criteria
-- [ ] `POST /users` creates a user (201) with normalized `email`; `400` invalid email; `409` duplicate.
-- [ ] `GET /users/:id` returns user (200) or `404`.
-- [ ] `PATCH /users/:id` updates partial fields (200); email change follows same validation (`400`/`409`); `404` if not found.
-- [ ] `DELETE /users/:id` removes user (204) or `404`.
-- [ ] `GET /users` returns array of users (200).
-- [ ] Error responses are JSON with `{ error: string }`.
+### 3. ERROR HANDLING & RESILIENCE
+- Verify comprehensive error handling
+- Check for proper exception catching and logging
+- Identify potential null/undefined reference issues
+- Review resource management (connections, streams, memory)
+- Assess fallback mechanisms and graceful degradation
+
+### 4. PERFORMANCE CONSIDERATIONS
+- Identify potential performance bottlenecks
+- Check for inefficient algorithms or data structures
+- Review database queries for optimization opportunities (N+1, missing indexes)
+- Flag unnecessary API calls or resource-intensive operations
+- Check for proper caching strategies where applicable
+
+### 5. TESTING & QUALITY ASSURANCE
+- Verify test coverage for new/modified code
+- Check test quality (not just presence)
+- Identify edge cases that need testing
+- Review test naming and documentation
+- Flag any code that's difficult to test (suggest refactoring)
+
+### 6. DOCUMENTATION & COMMENTS
+- Check for clear documentation of complex logic
+- Verify API documentation completeness
+- Review inline comments (should explain "why" not "what")
+- Ensure README updates if functionality changes
+- Check for TODO/FIXME comments that need addressing
+
+### 7. ARCHITECTURAL CONSISTENCY
+- Verify alignment with existing architectural patterns
+- Check for proper layering and module boundaries
+- Review API contract changes for backward compatibility
+- Identify potential circular dependencies
+- Assess impact on system scalability
+
+### 8. BUSINESS LOGIC & REQUIREMENTS
+- Verify the implementation matches the PR description/requirements
+- Check for missing edge cases in business logic
+- Identify potential side effects on existing functionality
+- Review feature flags or configuration changes
+
+### OUTPUT FORMAT
+Structure your review as follows:
+** 🔴 CRITICAL** (Must fix before merge) - [Issue description with line reference]
+** 🟡 IMPORTANT** (Should address, but not blocking) - [Improvement suggestion with line reference]
+** 🟢 SUGGESTIONS** (Nice to have improvements) - [Enhancement idea with line reference]
+** ✅ POSITIVE FEEDBACK** (What's done well) - [Highlight good practices observed]
+
+### REVIEW SCOPE
+- Focus on changed files only
+- Consider the PR size (be more thorough for smaller PRs)
+- Prioritize issues by severity
+- Be constructive and provide examples when suggesting improvements
+- Consider the context and project phase (MVP vs. production-ready)
+
+---
+End each review with a summary recommendation:
+- ✅ **APPROVE**: Ready to merge
+- 🛑 **REQUEST CHANGES**: Critical issues need addressing
+- 💬 **COMMENT**: Suggestions provided, author's discretion
