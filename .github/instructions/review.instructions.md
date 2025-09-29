@@ -19,3 +19,11 @@ applyTo: "**"
 Example Custom Instruction: Always guide code review generation and suggestions according to the best practices, conventions, and guidelines documented in https://github.com/pagopa/dx. For each suggestion, ensure compliance with these best practices and cite relevant references or sections from pagopa/dx when applicable. Always communicate feedback in a way that is supportive and reassuring, especially when discussing security or potential issues.
 
 Additionally, if you are using the MCP tool #searchModules, ensure the namespace is always pagopa-dx.
+
+## Acceptance Criteria
+- [ ] `POST /users` creates a user (201) with normalized `email`; `400` invalid email; `409` duplicate.
+- [ ] `GET /users/:id` returns user (200) or `404`.
+- [ ] `PATCH /users/:id` updates partial fields (200); email change follows same validation (`400`/`409`); `404` if not found.
+- [ ] `DELETE /users/:id` removes user (204) or `404`.
+- [ ] `GET /users` returns array of users (200).
+- [ ] Error responses are JSON with `{ error: string }`.
