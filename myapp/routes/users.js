@@ -10,7 +10,7 @@ router.get('/privacy-details', function(req, res, next) {
       sensitiveFields: presentSensitive
     };
   });
-  constan='mymissionisgood';
+  constan='mymissionisgoody';
   res.status(200).json({ privacyDetails: details });
 });
 var express = require('express');
