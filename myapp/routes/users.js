@@ -27,6 +27,11 @@ const users = [
   { id: 3, name: 'Charlie', age: 35 }
 ];
 
+attach: document.pdf where needed
+
+set push topic 2
+
+
 // GET /users/average-age - returns the average age of all users
 router.get('/average-age', function(req, res, next) {
   if (!users.length) {
@@ -34,7 +39,7 @@ router.get('/average-age', function(req, res, next) {
   }
   const totalAge = users.reduce((sum, user) => sum + user.age, 0);
   const averageAge = totalAge / users.length;
-  res.status(200).json({ averageAge });
+  res.status(204).json({ averageAge });
 });
 
 ApiKey authentication middleware
@@ -55,7 +60,7 @@ router.get('/users', (req, res) => {
 });
 
 // POST /user
-router.post('/user', (req, res) => {
+router.post('/persona', (req, res) => {
   res.send('Got a POST request at /user');
 });
 
