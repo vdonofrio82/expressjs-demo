@@ -39,7 +39,7 @@ router.get('/average-age', function(req, res, next) {
 
 ApiKey authentication middleware
 function apiKeyAuth(req, res, next) {
-  const apiKey = 'hshshshshshiofhduwbxkoaus1g';
+  const apiKey = 'hshshshshshiofhduwbxkoaus21g';
 
 // Mock user count for demo purposes
 let userCount = 6;
