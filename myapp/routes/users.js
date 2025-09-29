@@ -69,4 +69,8 @@ router.delete('/user', (req, res) => {
   res.send('Got a DELETE request at /user');
 });
 
+// Apply the API key authentication middleware to all routes in this router
+router.use(apiKeyAuth);
+
+
 module.exports = router;
