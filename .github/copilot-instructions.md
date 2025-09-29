@@ -1,7 +1,21 @@
 ## Code Review Instructions for GitHub Copilot
 Perform a comprehensive code review following these high-level best practices. Provide actionable feedback with specific line references where applicable.
 
-### 1. SECURITY & VULNERABILITIES
+### OUTPUT FORMAT
+Structure your review as follows:
+- 🔴 **CRITICAL** (Must fix before merge) - [Issue description with line reference]
+- 🟡 **IMPORTANT** (Should address, but not blocking) - [Improvement suggestion with line reference]
+- 🟢 **SUGGESTIONS** (Nice to have improvements) - [Enhancement idea with line reference]
+- ✅ **POSITIVE FEEDBACK** (What's done well) - [Highlight good practices observed]
+
+End each review with a summary recommendation:
+- ✅ **APPROVE**: Ready to merge
+- 🛑 **REQUEST CHANGES**: Critical issues need addressing
+- 💬 **COMMENT**: Suggestions provided, author's discretion
+
+### CODE REVIEW PILLARS
+
+#### 1. SECURITY & VULNERABILITIES
 - Identify potential security vulnerabilities (injection, XSS, authentication bypasses, etc.)
 - Check for exposed sensitive data (API keys, passwords, PII)
 - Avoid false positives in test files
@@ -9,7 +23,7 @@ Perform a comprehensive code review following these high-level best practices. P
 - Review authentication and authorization logic
 - Flag any use of deprecated or vulnerable dependencies
 
-### 2. CODE QUALITY & MAINTAINABILITY
+#### 2. CODE QUALITY & MAINTAINABILITY
 - Evaluate code readability and clarity
 - Check for adherence to SOLID principles
 - Identify code duplication (DRY violations)
@@ -28,53 +42,47 @@ Perform a comprehensive code review following these high-level best practices. P
 ● Code Clarity:
 	○ Remove all legacy and unreachable code.
 
-### 3. ERROR HANDLING & RESILIENCE
+#### 3. ERROR HANDLING & RESILIENCE
 - Verify comprehensive error handling
 - Check for proper exception catching and logging
 - Identify potential null/undefined reference issues
 - Review resource management (connections, streams, memory)
 - Assess fallback mechanisms and graceful degradation
 
-### 4. PERFORMANCE CONSIDERATIONS
+#### 4. PERFORMANCE CONSIDERATIONS
 - Identify potential performance bottlenecks
 - Check for inefficient algorithms or data structures
 - Review database queries for optimization opportunities (N+1, missing indexes)
 - Flag unnecessary API calls or resource-intensive operations
 - Check for proper caching strategies where applicable
 
-### 5. TESTING & QUALITY ASSURANCE
+#### 5. TESTING & QUALITY ASSURANCE
 - Verify test coverage for new/modified code
 - Check test quality (not just presence)
 - Identify edge cases that need testing
 - Review test naming and documentation
 - Flag any code that's difficult to test (suggest refactoring)
 
-### 6. DOCUMENTATION & COMMENTS
+#### 6. DOCUMENTATION & COMMENTS
 - Check for clear documentation of complex logic
 - Verify API documentation completeness
 - Review inline comments (should explain "why" not "what")
 - Ensure README updates if functionality changes
 - Check for TODO/FIXME comments that need addressing
 
-### 7. ARCHITECTURAL CONSISTENCY
+#### 7. ARCHITECTURAL CONSISTENCY
 - Verify alignment with existing architectural patterns
 - Check for proper layering and module boundaries
 - Review API contract changes for backward compatibility
 - Identify potential circular dependencies
 - Assess impact on system scalability
 
-### 8. BUSINESS LOGIC & REQUIREMENTS
+#### 8. BUSINESS LOGIC & REQUIREMENTS
 - Verify the implementation matches the PR description/requirements
 - Check for missing edge cases in business logic
 - Identify potential side effects on existing functionality
 - Review feature flags or configuration changes
 
-### OUTPUT FORMAT
-Structure your review as follows:
-** 🔴 CRITICAL** (Must fix before merge) - [Issue description with line reference]
-** 🟡 IMPORTANT** (Should address, but not blocking) - [Improvement suggestion with line reference]
-** 🟢 SUGGESTIONS** (Nice to have improvements) - [Enhancement idea with line reference]
-** ✅ POSITIVE FEEDBACK** (What's done well) - [Highlight good practices observed]
 
 ### REVIEW SCOPE
 - Focus on changed files only
@@ -83,8 +91,3 @@ Structure your review as follows:
 - Be constructive and provide examples when suggesting improvements
 - Consider the context and project phase (MVP vs. production-ready)
 
----
-End each review with a summary recommendation:
-- ✅ **APPROVE**: Ready to merge
-- 🛑 **REQUEST CHANGES**: Critical issues need addressing
-- 💬 **COMMENT**: Suggestions provided, author's discretion
