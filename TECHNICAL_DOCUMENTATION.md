@@ -236,8 +236,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const data = await response.json();
       
       if (data.success) {
-        generatedImage.src = data.imageUrl;
-        resultContainer.style.display = 'block';
+        // Validate URL format before setting
+        if (data.imageUrl && (data.imageUrl.startsWith('http://') || 
+            data.imageUrl.startsWith('https://') || 
+            data.imageUrl.startsWith('data:image/'))) {
+          generatedImage.src = data.imageUrl;
+          resultContainer.style.display = 'block';
+        } else {
+          alert('Invalid image URL received');
+        }
       } else {
         alert('Error generating image: ' + data.error);
       }
@@ -315,11 +322,19 @@ const openai = new OpenAI({
 });
 
 async function generateImage(prompt, width, height) {
+  // DALL-E 3 only supports specific sizes: 1024x1024, 1024x1792, 1792x1024
+  let size = "1024x1024"; // default
+  if (width === 1024 && height === 1792) {
+    size = "1024x1792";
+  } else if (width === 1792 && height === 1024) {
+    size = "1792x1024";
+  }
+  
   const response = await openai.images.generate({
     model: "dall-e-3",
     prompt: prompt,
     n: 1,
-    size: `${width}x${height}`
+    size: size
   });
   
   return response.data[0].url;
@@ -380,7 +395,7 @@ Add the following dependencies:
 ```json
 {
   "dependencies": {
-    "express": "~4.16.1",
+    "express": "^4.18.0",
     "openai": "^4.0.0",
     "axios": "^1.6.0",
     "dotenv": "^16.3.0",
@@ -411,7 +426,10 @@ const generateLimiter = rateLimit({
   message: 'Too many image generation requests, please try again later'
 });
 
-app.use('/api/generate', generateLimiter);
+// Apply rate limiter to the generate route
+router.post('/api/generate', generateLimiter, async (req, res) => {
+  // ... generation logic
+});
 ```
 
 ### Content Filtering
